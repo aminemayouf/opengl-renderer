@@ -2,10 +2,14 @@
 #version 330 core
 
 layout(location = 0) in vec4 position;
+layout(location = 1) in vec2 textureCoordinates;
+
+out vec2 vTextureCoordinates;
 
 void main()
 {
-   gl_Position = position;
+    gl_Position = position;
+    vTextureCoordinates = textureCoordinates;
 };
 
 #shader fragment
@@ -13,9 +17,12 @@ void main()
 
 layout(location = 0) out vec4 color;
 
-uniform vec4 uColor;
+in vec2 vTextureCoordinates;
+
+uniform sampler2D uTexture;
 
 void main()
 {
-   color = uColor;
+    vec4 textureColor = texture(uTexture, vTextureCoordinates);
+    color = textureColor;
 };

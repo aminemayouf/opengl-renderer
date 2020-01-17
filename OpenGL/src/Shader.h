@@ -22,6 +22,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
+	void SetUniform1i(const std::string& name, int v);
+	void SetUniform1f(const std::string& name, float v);
 	void SetUniform4f(const std::string& name, float v0, float v1, float f2, float f4);
 private:
 	unsigned int Compile(unsigned int type, const std::string& source);

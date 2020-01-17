@@ -106,6 +106,16 @@ ShaderProgramSource Shader::Parse(const std::string& filepath)
     return { ss[(int)ShaderType::VERTEX].str(), ss[(int)ShaderType::FRAGMENT].str() };
 }
 
+void Shader::SetUniform1i(const std::string& name, int v)
+{
+    GLCALL(glUniform1i(UniformLocation(name), v));
+}
+
+void Shader::SetUniform1f(const std::string& name, float v)
+{
+    GLCALL(glUniform1f(UniformLocation(name), v));
+}
+
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
     GLCALL(glUniform4f(UniformLocation(name), v0, v1, v2, v3));

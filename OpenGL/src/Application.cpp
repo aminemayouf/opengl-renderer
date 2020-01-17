@@ -5,6 +5,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -48,10 +49,10 @@ int main(void)
 
     {
         float positions[] = {
-            -0.5f, -0.5f, // 0
-             0.5f, -0.5f, // 1
-             0.5f,  0.5f, // 2
-            -0.5f,  0.5f  // 3
+            -0.5f, -0.5f, 0.0f, 0.0f, // 0
+             0.5f, -0.5f, 1.0f, 0.0f, // 1
+             0.5f,  0.5f, 1.0f, 1.0f, // 2
+            -0.5f,  0.5f, 0.0f, 1.0f  // 3
         };
 
         unsigned int indices[] = {
@@ -59,14 +60,18 @@ int main(void)
             2, 3, 0
         };
 
+        GLCALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        GLCALL(glEnable(GL_BLEND));
+
         unsigned int vao;
         GLCALL(glGenVertexArrays(1, &vao));
         GLCALL(glBindVertexArray(vao));
 
         VertexArray va;
-        VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
         VertexBufferLayout layout;
+        layout.Push<float>(2);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
 
@@ -74,7 +79,10 @@ int main(void)
 
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
-        shader.SetUniform4f("uColor", 0.2f, 0.3f, 0.8f, 1.0f);
+
+        Texture texture("res/textures/snes.png");
+        texture.Bind();
+        shader.SetUniform1i("uTexture", 0);
 
         va.Unbind();
         vb.Unbind();
@@ -93,7 +101,7 @@ int main(void)
             renderer.Clear();
 
             shader.Bind();
-            shader.SetUniform4f("uColor", r, 0.3f, 0.8f, 1.0f);
+            shader.SetUniform1i("uTexture", 0);
 
             renderer.Draw(va, ib, shader);
 
