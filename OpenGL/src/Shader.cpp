@@ -106,14 +106,14 @@ ShaderProgramSource Shader::Parse(const std::string& filepath)
     return { ss[(int)ShaderType::VERTEX].str(), ss[(int)ShaderType::FRAGMENT].str() };
 }
 
-void Shader::SetUniform1i(const std::string& name, int v)
+void Shader::SetUniform1i(const std::string& name, int value)
 {
-    GLCALL(glUniform1i(UniformLocation(name), v));
+    GLCALL(glUniform1i(UniformLocation(name), value));
 }
 
-void Shader::SetUniform1f(const std::string& name, float v)
+void Shader::SetUniform1f(const std::string& name, float value)
 {
-    GLCALL(glUniform1f(UniformLocation(name), v));
+    GLCALL(glUniform1f(UniformLocation(name), value));
 }
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
